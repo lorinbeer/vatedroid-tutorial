@@ -19,6 +19,12 @@
 #include <v8.h>
 #include <android/log.h>
 
+/**
+ * execute a script from native
+ */
 extern "C" jstring Java_com_vatedroid_VateDroidActivity_feedVatedroid(JNIEnv * env, jobject obj, jstring name, jstring message);
-
+/**
+ * initialize the V8 execution environment for vatedroid scripts 
+ */
+extern "C" void Java_com_vatedroid_VateDroidActivity_initVatedroid(JNIEnv * env, jobject obj);
 #endif // _VATEDROID_H
