@@ -25,9 +25,10 @@ public class VateDroidActivity extends Activity
 
         // initialize
         initVatedroid();        
-
+        
         // feed vatedroid
-        String result = feedVatedroid("VateDroid Activity", "var blank");
+        String okjs = "function main() { var nothing = \"foobar\"; return nothing; } \n main();";    
+        String result = feedVatedroid("VateDroid Activity", okjs);
         Log.d("VATEDROID ACTIVITY VATEDROID 'PRODUCED' RESULT", result);
     }
 }
