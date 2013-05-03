@@ -29,7 +29,7 @@ extern "C" jstring Java_com_vatedroid_VateDroidActivity_feedVatedroid(JNIEnv * e
  */
 extern "C" void Java_com_vatedroid_VateDroidActivity_initVatedroid(JNIEnv * env, jobject obj) {
     // log what's happening
-    __android_log_write(ANDROID_LOG_DEBUG, "Pender NDK", "INITIALIZING VATEDROID");
+    __android_log_write(ANDROID_LOG_DEBUG, "VATEDROID NDK", "INITIALIZING VATEDROID");
     // can be placed at any scope resolution level, this will be redeclared in any V8 aware function 
 
     using namespace v8;
@@ -38,7 +38,7 @@ extern "C" void Java_com_vatedroid_VateDroidActivity_initVatedroid(JNIEnv * env,
     // governs local handles
     HandleScope localscope;
     // object template used to create the global object of our context
-    Local< ObjectTemplate > global = ObjectTemplate::New();
+     Local< ObjectTemplate > global = ObjectTemplate::New();
     // declaration and instantiation of the primary context
     PrimaryContext = Context::New(NULL, global);
 }
