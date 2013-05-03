@@ -13,6 +13,7 @@
  */
 
 #include "vatedroid.h"
+#include <string.h>
 
 v8::Persistent<v8::Context> PrimaryContext;
 
@@ -20,7 +21,35 @@ v8::Persistent<v8::Context> PrimaryContext;
  *
  */
 extern "C" jstring Java_com_vatedroid_VateDroidActivity_feedVatedroid(JNIEnv * env, jobject obj, jstring name, jstring message) {
-    jstring retval = env->NewStringUTF("stubbywub");
+    using namespace v8;
+    HandleScope scope;
+    TryCatch tc;
+    Context::Scope context_scope(PrimaryContext);
+    jstring retval;
+    jboolean isCopy;
+
+    Handle< String > nme = String::New(env->GetStringChars(name, &isCopy));
+    Handle< String > cmd = String::New(env->GetStringChars(message, &isCopy));
+
+    Handle< Script > script = Script::Compile(cmd, nme);
+
+    __android_log_write(ANDROID_LOG_DEBUG, "VATEDROID", "Compiled Scipt");
+
+    if (script.IsEmpty()) {
+        return env->NewStringUTF("Error: Bottle is empty!");
+    }
+
+    __android_log_write(ANDROID_LOG_DEBUG, "VATEDROID", "Feeding Vatedroid");
+
+    Local< Value > result = script->Run();
+
+    if (result.IsEmpty()) {
+        __android_log_write(ANDROID_LOG_DEBUG, "VATEDROID", "RESULT IS EMPTY");
+        String::Utf8Value error(tc.Exception());
+        __android_log_write(ANDROID_LOG_DEBUG, "VATEDROID", *error);
+    }
+    String::Utf8Value retstr(result);
+    retval = env->NewStringUTF(*retstr);
     return retval;
 }
 
